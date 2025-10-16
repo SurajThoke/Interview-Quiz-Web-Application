@@ -1,0 +1,54 @@
+{
+  "Web Development": {
+    "Basic": [
+      {
+        "question": "What does HTML stand for?",
+        "options": ["Hyper Text Markup Language", "High Text Machine Language", "Hyper Tabular Markup Language", "None"],
+        "answer": "Hyper Text Markup Language"
+      },
+      {
+        "question": "Which CSS property controls the text size?",
+        "options": ["font-style", "text-size", "font-size", "text-style"],
+        "answer": "font-size"
+      }
+    ],
+    "Medium": [
+      {
+        "question": "What is the purpose of React's useEffect hook?",
+        "options": ["To manage forms", "To fetch data", "To handle side effects", "To change styles"],
+        "answer": "To handle side effects"
+      }
+    ],
+    "Advanced": [
+      {
+        "question": "What does server-side rendering mean in Next.js?",
+        "options": ["Rendering pages on the server", "Rendering styles first", "Only CSS loaded", "None"],
+        "answer": "Rendering pages on the server"
+      }
+    ]
+  },
+
+  "Python": {
+    "Basic": [
+      {
+        "question": "What is the keyword to define a function in Python?",
+        "options": ["func", "def", "function", "define"],
+        "answer": "def"
+      }
+    ],
+    "Medium": [
+      {
+        "question": "Which keyword is used for exception handling in Python?",
+        "options": ["try", "except", "catch", "error"],
+        "answer": "except"
+      }
+    ],
+    "Advanced": [
+      {
+        "question": "What is the output of list(set([1,2,2,3]))?",
+        "options": ["[1,2,3]", "[1,1,2,3]", "[3,2,1]", "[1,2,2,3]"],
+        "answer": "[1,2,3]"
+      }
+    ]
+  }
+}
