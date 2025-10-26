@@ -7,6 +7,8 @@ import QuizDomains from './pages/QuizDomains'
 import QuizLevels from './pages/QuizLevels'
 import QuizPage from './pages/QuizPage'
 import QuizResult from './pages/QuizResult'
+import PracticePage from './pages/PracticePage' // Add this import
+import ProgressPage from './pages/ProgressPage' // Add this import
 import ProtectedRoute from './components/ProtectedRoute'
 
 function App() {
@@ -53,13 +55,33 @@ function App() {
         />
 
         <Route
-  path="/quiz-result"
-  element={
-    <ProtectedRoute>
-      <QuizResult />
-    </ProtectedRoute>
-  }
-/>
+          path="/quiz-result"
+          element={
+            <ProtectedRoute>
+              <QuizResult />
+            </ProtectedRoute>
+          }
+        />
+
+        {/* Updated Practice Route */}
+        <Route
+          path="/practice"
+          element={
+            <ProtectedRoute>
+              <PracticePage />
+            </ProtectedRoute>
+          }
+        />
+
+        {/* Updated Progress Route */}
+        <Route
+          path="/progress"
+          element={
+            <ProtectedRoute>
+              <ProgressPage />
+            </ProtectedRoute>
+          }
+        />
       </Routes>
     </Router>
   )
