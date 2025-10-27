@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from 'react'
-import { useParams, useNavigate } from 'react-router-dom'
+import { useParams, useNavigate, useLocation } from 'react-router-dom'
 
 const QuizLevels = () => {
   const { domain } = useParams()
   const navigate = useNavigate()
+  const location = useLocation()
   const [questionCounts, setQuestionCounts] = useState({
     Basic: 0,
     Medium: 0,
@@ -19,26 +20,41 @@ const QuizLevels = () => {
         setLoading(true)
         setError(null)
         
-        const encodedDomain = encodeURIComponent(domain)
-        const response = await fetch(`/api/quiz/counts/${encodedDomain}`)
+        // Use the domain from URL params, or fallback to query parameter
+        const domainName = domain || new URLSearchParams(location.search).get('domain') || 'Web Development'
+        const encodedDomain = encodeURIComponent(domainName)
         
-        if (!response.ok) {
-          throw new Error(`Failed to fetch question counts: ${response.status}`)
-        }
+        // Mock API call - replace with your actual API endpoint
+        // const response = await fetch(`/api/quiz/counts/${encodedDomain}`)
         
-        const counts = await response.json()
-        setQuestionCounts(counts)
+        // Simulate API call with timeout
+        setTimeout(() => {
+          // Mock data - replace with actual API response
+          const mockCounts = {
+            Basic: Math.floor(Math.random() * 20) + 5,
+            Medium: Math.floor(Math.random() * 15) + 3,
+            Advanced: Math.floor(Math.random() * 10) + 1
+          }
+          
+          setQuestionCounts(mockCounts)
+          setLoading(false)
+        }, 1000)
         
       } catch (err) {
         console.error('Error fetching question counts:', err)
-        setError('Failed to load question counts.')
-      } finally {
+        setError('Failed to load question counts. Using demo data.')
+        // Set fallback demo data
+        setQuestionCounts({
+          Basic: 15,
+          Medium: 10,
+          Advanced: 5
+        })
         setLoading(false)
       }
     }
 
     fetchQuestionCounts()
-  }, [domain])
+  }, [domain, location.search])
 
   const levels = [
     {
@@ -54,7 +70,7 @@ const QuizLevels = () => {
       name: 'Medium',
       description: 'Intermediate level challenges. Test your practical knowledge and problem-solving.',
       difficulty: 'Intermediate',
-      color: 'from-yellow-500 to-orange-500',
+      color: 'from-yellow-500 to-amber-500',
       icon: '⚡',
       requirements: 'Basic understanding required',
       features: ['Practical applications', 'Complex scenarios', 'Debugging challenges']
@@ -63,7 +79,7 @@ const QuizLevels = () => {
       name: 'Advanced',
       description: 'Expert-level problems. Complex scenarios and advanced concepts.',
       difficulty: 'Hard',
-      color: 'from-red-500 to-pink-500',
+      color: 'from-red-500 to-orange-500',
       icon: '🚀',
       requirements: 'Strong knowledge recommended',
       features: ['Advanced concepts', 'System design', 'Performance optimization']
@@ -71,12 +87,17 @@ const QuizLevels = () => {
   ]
 
   const handleLevelClick = (level) => {
+    if (questionCounts[level.name] === 0) return
+    
     const encodedLevel = encodeURIComponent(level.name)
-    const encodedDomain = encodeURIComponent(domain)
+    const domainName = domain || new URLSearchParams(location.search).get('domain') || 'Web Development'
+    const encodedDomain = encodeURIComponent(domainName)
     navigate(`/quiz/${encodedDomain}/${encodedLevel}`)
   }
 
   const getDomainIcon = (domainName) => {
+    if (!domainName) return '📚'
+    
     const domainIcons = {
       'web development': '🌐',
       'frontend': '⚛️',
@@ -104,6 +125,11 @@ const QuizLevels = () => {
     return '📚'
   }
 
+  const getDisplayDomain = () => {
+    const domainName = domain || new URLSearchParams(location.search).get('domain') || 'Web Development'
+    return decodeURIComponent(domainName)
+  }
+
   // Loading component
   if (loading) {
     return (
@@ -113,12 +139,12 @@ const QuizLevels = () => {
             <div className="flex items-center justify-center mb-6">
               <div className="w-16 h-16 bg-gradient-to-r from-indigo-600 to-purple-600 rounded-2xl flex items-center justify-center mr-4 shadow-lg">
                 <span className="text-2xl text-white">
-                  {getDomainIcon(decodeURIComponent(domain))}
+                  {getDomainIcon(getDisplayDomain())}
                 </span>
               </div>
               <div>
                 <h1 className="text-4xl font-bold text-gray-800 mb-2">
-                  {decodeURIComponent(domain)}
+                  {getDisplayDomain()}
                 </h1>
                 <div className="w-20 h-1 bg-gradient-to-r from-indigo-500 to-purple-500 rounded-full mx-auto"></div>
               </div>
@@ -146,11 +172,6 @@ const QuizLevels = () => {
                       <div className="h-4 bg-gray-200 rounded w-5/6"></div>
                     </div>
                     <div className="h-10 bg-gray-200 rounded mb-6"></div>
-                    <div className="grid grid-cols-1 gap-4 mb-6">
-                      <div className="text-center">
-                        <div className="h-6 bg-gray-200 rounded w-32 mx-auto mb-1"></div>
-                      </div>
-                    </div>
                     <div className="h-12 bg-gray-200 rounded"></div>
                   </div>
                 </div>
@@ -170,12 +191,12 @@ const QuizLevels = () => {
           <div className="flex items-center justify-center mb-6">
             <div className="w-16 h-16 bg-gradient-to-r from-indigo-600 to-purple-600 rounded-2xl flex items-center justify-center mr-4 shadow-lg">
               <span className="text-2xl text-white">
-                {getDomainIcon(decodeURIComponent(domain))}
+                {getDomainIcon(getDisplayDomain())}
               </span>
             </div>
             <div>
               <h1 className="text-4xl font-bold text-gray-800 mb-2">
-                {decodeURIComponent(domain)}
+                {getDisplayDomain()}
               </h1>
               <div className="w-20 h-1 bg-gradient-to-r from-indigo-500 to-purple-500 rounded-full mx-auto"></div>
             </div>
@@ -202,9 +223,13 @@ const QuizLevels = () => {
           {levels.map((level, index) => (
             <div
               key={level.name}
-              className="group cursor-pointer transform hover:-translate-y-2 transition-all duration-300"
+              className={`group transform transition-all duration-300 ${
+                questionCounts[level.name] === 0 ? 'opacity-60' : 'cursor-pointer hover:-translate-y-2'
+              }`}
             >
-              <div className="bg-white rounded-2xl shadow-xl border border-gray-100 overflow-hidden hover:shadow-2xl transition-all duration-300 h-full flex flex-col">
+              <div className={`bg-white rounded-2xl shadow-xl border border-gray-100 overflow-hidden transition-all duration-300 h-full flex flex-col ${
+                questionCounts[level.name] === 0 ? '' : 'hover:shadow-2xl'
+              }`}>
                 {/* Gradient Header */}
                 <div className={`h-2 bg-gradient-to-r ${level.color}`}></div>
                 
@@ -236,7 +261,7 @@ const QuizLevels = () => {
                   </div>
 
                   {/* Features */}
-                  <div className="mb-8">
+                  <div className="mb-6">
                     <ul className="space-y-3">
                       {level.features.map((feature, idx) => (
                         <li key={idx} className="flex items-center text-sm text-gray-600">
@@ -255,7 +280,11 @@ const QuizLevels = () => {
                   <button
                     onClick={() => handleLevelClick(level)}
                     disabled={questionCounts[level.name] === 0}
-                    className={`w-full py-3 px-6 bg-gradient-to-r ${level.color} text-white rounded-xl font-semibold shadow-lg hover:shadow-xl transform hover:scale-105 transition-all duration-200 group-hover:shadow-2xl disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none disabled:hover:shadow-lg`}
+                    className={`w-full py-3 px-6 rounded-xl font-semibold shadow-lg transition-all duration-200 ${
+                      questionCounts[level.name] === 0
+                        ? 'bg-gray-300 text-gray-500 cursor-not-allowed'
+                        : `bg-gradient-to-r ${level.color} text-white hover:shadow-xl transform hover:scale-105`
+                    }`}
                   >
                     {questionCounts[level.name] === 0 ? 'No Questions Available' : `Start ${level.name} Quiz`}
                   </button>
@@ -263,6 +292,19 @@ const QuizLevels = () => {
               </div>
             </div>
           ))}
+        </div>
+
+        {/* Back Button */}
+        <div className="text-center mb-8">
+          <button
+            onClick={() => navigate('/quiz-domains')}
+            className="bg-white text-gray-700 px-6 py-3 rounded-xl font-semibold border border-gray-300 hover:bg-gray-50 transition-all duration-200 inline-flex items-center space-x-2 shadow-lg"
+          >
+            <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 19l-7-7m0 0l7-7m-7 7h18" />
+            </svg>
+            <span>Back to Domains</span>
+          </button>
         </div>
 
         {/* Features Section */}
