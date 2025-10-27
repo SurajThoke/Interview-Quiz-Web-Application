@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 
+const API_URL = import.meta.env.VITE_API_URL;
+
 const QuizPage = () => {
   const { domain, level } = useParams();
   const [questions, setQuestions] = useState([]);
@@ -19,7 +21,8 @@ const QuizPage = () => {
       // NOTE: Ensure your Express server is running and accessible at the root.
       // We are calling the route defined in quizRoutes.js: router.get('/:domain/:level', ...)
       try {
-        const response = await fetch(`/api/quiz/${domain}/${level}`);
+        const response = await fetch(`${API_URL}/api/quiz/${domain}/${level}`);
+
         
         if (!response.ok) {
           throw new Error(`HTTP error! status: ${response.status}`);
