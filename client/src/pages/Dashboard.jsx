@@ -58,17 +58,6 @@ const Dashboard = () => {
     navigate('/progress')
   }
 
-  const handleChallengeOfTheDay = () => {
-    navigate('/quiz/Web%20Development/Basic')
-  }
-
-  const handleQuickQuiz = () => {
-    const domains = ['JavaScript', 'Python', 'Web Development', 'Data Structures']
-    const randomDomain = domains[Math.floor(Math.random() * domains.length)]
-    const encodedDomain = encodeURIComponent(randomDomain)
-    navigate(`/quiz/${encodedDomain}/Basic`)
-  }
-
   if (loading) {
     return (
       <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-indigo-50 py-8 px-4 flex items-center justify-center">
@@ -138,51 +127,7 @@ const Dashboard = () => {
           </div>
         </div>
 
-        {/* Main Action Cards */}
-        <div className="grid md:grid-cols-2 gap-6 mb-8">
-          {/* Challenge of the Day */}
-          <div className="bg-gradient-to-br from-indigo-500 via-purple-500 to-pink-500 rounded-2xl p-6 text-white shadow-xl transform hover:-translate-y-1 transition-all duration-200 cursor-pointer">
-            <div className="flex items-center justify-between mb-4">
-              <div className="w-12 h-12 bg-white bg-opacity-20 rounded-lg flex items-center justify-center">
-                <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M11 3.055A9.001 9.001 0 1020.945 13H11V3.055z" />
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M20.488 9H15V3.512A9.025 9.025 0 0120.488 9z" />
-                </svg>
-              </div>
-              <span className="bg-white bg-opacity-20 px-3 py-1 rounded-full text-sm font-semibold">Daily</span>
-            </div>
-            <h3 className="text-xl font-bold mb-2">Challenge of the Day</h3>
-            <p className="text-indigo-100 mb-4">Special curated challenge to keep your skills sharp</p>
-            <button
-              onClick={handleChallengeOfTheDay}
-              className="w-full bg-white text-indigo-600 py-3 rounded-lg font-semibold hover:bg-gray-100 transition-colors duration-200 shadow-lg"
-            >
-              Take Today's Challenge
-            </button>
-          </div>
-
-          {/* Quick Quiz */}
-          <div className="bg-gradient-to-br from-green-500 to-emerald-600 rounded-2xl p-6 text-white shadow-xl transform hover:-translate-y-1 transition-all duration-200 cursor-pointer">
-            <div className="flex items-center justify-between mb-4">
-              <div className="w-12 h-12 bg-white bg-opacity-20 rounded-lg flex items-center justify-center">
-                <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
-                </svg>
-              </div>
-              <span className="bg-white bg-opacity-20 px-3 py-1 rounded-full text-sm font-semibold">Fast</span>
-            </div>
-            <h3 className="text-xl font-bold mb-2">Quick Quiz</h3>
-            <p className="text-green-100 mb-4">5-minute random quiz to test your reflexes</p>
-            <button
-              onClick={handleQuickQuiz}
-              className="w-full bg-white text-green-600 py-3 rounded-lg font-semibold hover:bg-gray-100 transition-colors duration-200 shadow-lg"
-            >
-              Start Quick Quiz
-            </button>
-          </div>
-        </div>
-
-        {/* Secondary Action Cards */}
+        {/* Main Action Cards - Only Full Quiz Library and Progress Analytics */}
         <div className="grid md:grid-cols-2 gap-6 mb-8">
           {/* Full Quiz Library */}
           <div className="bg-white rounded-2xl p-6 border border-gray-100 shadow-lg transform hover:-translate-y-1 transition-all duration-200 cursor-pointer">
