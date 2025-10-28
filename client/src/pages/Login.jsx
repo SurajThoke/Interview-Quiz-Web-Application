@@ -2,6 +2,8 @@ import React, { useState } from 'react';
 import axios from 'axios';
 import { Link, useNavigate } from 'react-router-dom';
 
+const API_URL = import.meta.env.VITE_API_URL; // ✅ Add this line
+
 const Login = () => {
   const navigate = useNavigate();
 
@@ -24,14 +26,15 @@ const Login = () => {
     setError('');
 
     try {
-      const res = await axios.post('http://localhost:5000/api/auth/login', formData);
+      // ✅ Use the environment-based backend URL
+      const res = await axios.post(`${API_URL}/api/auth/login`, formData);
 
-      // Store token (you can use localStorage or sessionStorage)
+      // Store token
       localStorage.setItem('token', res.data.token);
       alert('Login successful!');
 
-      // Navigate to home or dashboard
-      navigate('/dashboard'); // change this path as per your app
+      // Navigate to dashboard
+      navigate('/dashboard');
     } catch (err) {
       setError(err.response?.data?.message || 'Login failed');
     }
@@ -40,7 +43,7 @@ const Login = () => {
   return (
     <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-blue-50 to-indigo-100">
       <div className="w-full max-w-md bg-white p-8 rounded-2xl shadow-xl border border-gray-100">
-        {/* Enhanced Header Section */}
+        {/* Header */}
         <div className="text-center mb-8">
           <div className="flex items-center justify-center mb-4">
             <div className="w-12 h-12 bg-gradient-to-r from-indigo-600 to-purple-600 rounded-lg flex items-center justify-center mr-3">
@@ -109,28 +112,6 @@ const Login = () => {
               Join CodeDrill
             </Link>
           </p>
-        </div>
-
-        {/* Feature Highlights */}
-        <div className="mt-8 grid grid-cols-3 gap-4 text-center text-xs text-gray-500">
-          <div className="flex flex-col items-center">
-            <svg className="w-5 h-5 text-indigo-500 mb-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
-            </svg>
-            <span>Practice</span>
-          </div>
-          <div className="flex flex-col items-center">
-            <svg className="w-5 h-5 text-indigo-500 mb-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
-            </svg>
-            <span>Learn Fast</span>
-          </div>
-          <div className="flex flex-col items-center">
-            <svg className="w-5 h-5 text-indigo-500 mb-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 8v8m-4-5v5m-4-2v2m-2 4h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
-            </svg>
-            <span>Track Progress</span>
-          </div>
         </div>
       </div>
     </div>
